@@ -172,7 +172,7 @@ if st.button('Predict'):
         "Gradient Boosting" : GradientBoosting.predict(new_data)[0],
         "CatBoost" : CatBoostModel.predict(new_data)[0][0]
     }
-    st.write("Predicted wine quality:", pandas.DataFrame(data=prediction_result, index=["Quality"]))
+    st.write("Predicted wine quality:", pd.DataFrame(data=prediction_result, index=["Quality"]))
     st.write('The quality of wine is between 0 and 10.')
     st.write('0: Very Bad')
     st.write('1: Very Bad')
