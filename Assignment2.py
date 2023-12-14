@@ -24,7 +24,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score
-from catboost import CatBoostClassifier, Pool, cv
+from catboost import CatBoostRegressor, CatBoostClassifier, Pool, cv
 
 pd.set_option('display.max_columns', 100)
 
@@ -80,134 +80,74 @@ print("x_test shape:", X_test.shape) # (980, 10)
 print("y_test shape:", y_test.shape) # (980,)
 print("-" * 100)
 
-# 3.2. Build, train, and evaluate KNN, Naive Bayes, SVM and Decision Tree models
-print('3.2. Build and train KNN, Naive Bayes, SVM and Decision Tree models')
-# # 3.2.1. KNN
-# print('4.2.1. KNN')
-# knn = KNeighborsClassifier(n_neighbors=12)
-# knn.fit(X_train, y_train)
-# y_pred_knn = knn.predict(X_test)
-# print("KNN Accuracy score:", accuracy_score(y_test, y_pred_knn))
-# print("KNN F1 score:", f1_score(y_test, y_pred_knn, average='weighted'))
-# print("-" * 100)
-#
-# # 4.2.2. Naive Bayes
-# print('4.2.2. Naive Bayes')
-# nb = GaussianNB()
-# nb.fit(X_train, y_train)
-# y_pred_nb = nb.predict(X_test)
-# print("Naive Bayes Accuracy score:", accuracy_score(y_test, y_pred_nb))
-# print("Naive Bayes F1 score:", f1_score(y_test, y_pred_nb, average='weighted'))
-# print("-" * 100)
-#
-# # 4.2.3. SVM
-# print('4.2.3. SVM')
-# svm = svm.SVC()
-# svm.fit(X_train, y_train)
-# y_pred_svm = svm.predict(X_test)
-# print("SVM Accuracy score:", accuracy_score(y_test, y_pred_svm))
-# print("SVM F1 score:", f1_score(y_test, y_pred_svm, average='weighted'))
-# print("-" * 100)
-#
-# # 4.2.4. Decision Tree
-# print('4.2.4. Decision Tree')
-# dt = DecisionTreeClassifier()
-# dt.fit(X_train, y_train)
-# y_pred_dt = dt.predict(X_test)
-# print("Decision Tree Accuracy score:", accuracy_score(y_test, y_pred_dt))
-# print("Decision Tree F1 score:", f1_score(y_test, y_pred_dt, average='weighted'))
-# print("-" * 100)
-#
-# # 4.2.5. Random Forest
-# print('4.2.5. Random Forest')
-# rf = RandomForestClassifier()
-# rf.fit(X_train, y_train)
-# y_pred_rf = rf.predict(X_test)
-# print("Random Forest Accuracy score:", accuracy_score(y_test, y_pred_rf))
-# print("Random Forest F1 score:", f1_score(y_test, y_pred_rf, average='weighted'))
-# print("-" * 100)
-#
-# # 4.2.6. AdaBoost
-# print('4.2.6. AdaBoost')
-# AdaBoost = AdaBoostClassifier()
-# AdaBoost.fit(X_train, y_train)
-# y_pred_AdaBoost = AdaBoost.predict(X_test)
-# print("AdaBoost Accuracy score:", accuracy_score(y_test, y_pred_AdaBoost))
-# print("AdaBoost F1 score:", f1_score(y_test, y_pred_AdaBoost, average='weighted'))
-# print("-" * 100)
-#
-# # 4.2.7. Gradient Boosting
-# print('4.2.7. Gradient Boosting')
-# GradientBoosting = GradientBoostingClassifier()
-# GradientBoosting.fit(X_train, y_train)
-# y_pred_GradientBoosting = GradientBoosting.predict(X_test)
-# print("Gradient Boosting Accuracy score:", accuracy_score(y_test, y_pred_GradientBoosting))
-# print("Gradient Boosting F1 score:", f1_score(y_test, y_pred_GradientBoosting, average='weighted'))
-# print("-" * 100)
+# 3.2. Build, train, and evaluate machine learning models
+print('3.2. Build, train and evaluate machine learning models')
+# 4.2.1. Decision Tree
+print('4.2.1. Decision Tree')
+dt = DecisionTreeClassifier()
+dt.fit(X_train, y_train)
+y_pred_dt = dt.predict(X_test)
+print("Decision Tree Accuracy score:", accuracy_score(y_test, y_pred_dt))
+print("Decision Tree F1 score:", f1_score(y_test, y_pred_dt, average='weighted'))
+print("-" * 100)
 
-# 4.2.8. CatBoost
-print('4.2.8. CatBoost')
+# 4.2.2. Random Forest
+print('4.2.2. Random Forest')
+rf = RandomForestClassifier()
+rf.fit(X_train, y_train)
+y_pred_rf = rf.predict(X_test)
+print("Random Forest Accuracy score:", accuracy_score(y_test, y_pred_rf))
+print("Random Forest F1 score:", f1_score(y_test, y_pred_rf, average='weighted'))
+print("-" * 100)
+
+# 4.2.3. AdaBoost
+print('4.2.3. AdaBoost')
+AdaBoost = AdaBoostClassifier()
+AdaBoost.fit(X_train, y_train)
+y_pred_AdaBoost = AdaBoost.predict(X_test)
+print("AdaBoost Accuracy score:", accuracy_score(y_test, y_pred_AdaBoost))
+print("AdaBoost F1 score:", f1_score(y_test, y_pred_AdaBoost, average='weighted'))
+print("-" * 100)
+
+# 4.2.4. Gradient Boosting
+print('4.2.4. Gradient Boosting')
+GradientBoosting = GradientBoostingClassifier()
+GradientBoosting.fit(X_train, y_train)
+y_pred_GradientBoosting = GradientBoosting.predict(X_test)
+print("Gradient Boosting Accuracy score:", accuracy_score(y_test, y_pred_GradientBoosting))
+print("Gradient Boosting F1 score:", f1_score(y_test, y_pred_GradientBoosting, average='weighted'))
+print("-" * 100)
+
+# 4.2.5. CatBoost Classifier
+print('4.2.5. CatBoost Classifier')
 X_train, X_validation, y_train, y_validation = train_test_split(X, y, train_size=0.9, random_state=10)
-model = CatBoostClassifier(custom_loss=['Accuracy'], random_seed=77, logging_level='Silent')
-model.fit(X_train, y_train, eval_set=(X_validation, y_validation))
-y_pred_CatBoost = model.predict(X_validation)
+CatBoostModel = CatBoostClassifier(custom_loss=['Accuracy'], random_seed=77, logging_level='Silent')
+CatBoostModel.fit(X_train, y_train, eval_set=(X_validation, y_validation))
+y_pred_CatBoost = CatBoostModel.predict(X_validation)
 print("CatBoost Accuracy score:", accuracy_score(y_validation, y_pred_CatBoost))
 print("CatBoost F1 score:", f1_score(y_validation, y_pred_CatBoost, average='weighted'))
 print("-" * 100)
-#
-# # 4.3. Save the best model
-# print('5.2. Save the best model')
-# best_model_accuracy = max([accuracy_score(y_test, y_pred_knn), accuracy_score(y_test, y_pred_nb), accuracy_score(y_test, y_pred_svm), accuracy_score(y_test, y_pred_dt), accuracy_score(y_test, y_pred_rf), accuracy_score(y_test, y_pred_AdaBoost), accuracy_score(y_test, y_pred_GradientBoosting), accuracy_score(y_validation, y_pred_CatBoost)])
-# best_model_f1 = max([f1_score(y_test, y_pred_knn, average='weighted'), f1_score(y_test, y_pred_nb, average='weighted'), f1_score(y_test, y_pred_svm, average='weighted'), f1_score(y_test, y_pred_dt, average='weighted'), f1_score(y_test, y_pred_rf, average='weighted'), f1_score(y_test, y_pred_AdaBoost, average='weighted'), f1_score(y_test, y_pred_GradientBoosting, average='weighted'), f1_score(y_validation, y_pred_CatBoost, average='weighted')])
-# if best_model_accuracy == accuracy_score(y_test, y_pred_knn) and best_model_f1 == f1_score(y_test, y_pred_knn, average='weighted'):
-#     joblib.dump(knn, 'knn_model.pkl')
-#     print("The best model is KNN")
-# elif best_model_accuracy == accuracy_score(y_test, y_pred_nb) and best_model_f1 == f1_score(y_test, y_pred_nb, average='weighted'):
-#     joblib.dump(nb, 'naiveBayes_model.pkl')
-#     print("The best model is Naive Bayes")
-# elif best_model_accuracy == accuracy_score(y_test, y_pred_svm) and best_model_f1 == f1_score(y_test, y_pred_svm, average='weighted'):
-#     joblib.dump(svm, 'svm_model.pkl')
-#     print("The best model is SVM")
-# elif best_model_accuracy == accuracy_score(y_test, y_pred_dt) and best_model_f1 == f1_score(y_test, y_pred_dt, average='weighted'):
-#     joblib.dump(dt, 'decisionTree_model.pkl')
-#     print("The best model is Decision Tree")
-# elif best_model_accuracy == accuracy_score(y_test, y_pred_rf) and best_model_f1 == f1_score(y_test, y_pred_rf, average='weighted'):
-#     joblib.dump(rf, 'randomForest_model.pkl')
-#     print("The best model is Random Forest")
-# elif best_model_accuracy == accuracy_score(y_test, y_pred_AdaBoost) and best_model_f1 == f1_score(y_test, y_pred_AdaBoost, average='weighted'):
-#     joblib.dump(AdaBoost, 'AdaBoost_model.pkl')
-#     print("The best model is AdaBoost")
-# elif best_model_accuracy == accuracy_score(y_test, y_pred_GradientBoosting) and best_model_f1 == f1_score(y_test, y_pred_GradientBoosting, average='weighted'):
-#     joblib.dump(GradientBoosting, 'GradientBoosting_model.pkl')
-#     print("The best model is Gradient Boosting")
-# elif best_model_accuracy == accuracy_score(y_validation, y_pred_CatBoost) and best_model_f1 == f1_score(y_validation, y_pred_CatBoost, average='weighted'):
-#     joblib.dump(model, 'CatBoost_model.pkl')
-#     print("The best model is CatBoost")
-# print("-" * 100)
 
 ########################################################################
-# Part 6: Predict the quality of wine
+# Part 5: Predict the quality of wine
 ########################################################################
-print('Part 6: Predict the quality of wine')
-# 6.1. Load the best model
-print('6.1. Load the best model')
-loaded_model = joblib.load('CatBoost_model.pkl')
-print("-" * 100)
-
-# 6.2. Predict the quality of wine
-print('6.2. Predict the quality of wine')
-# 6.2.1. Predict the quality of wine with a new data
-print('6.2.1. Predict the quality of wine with a new data')
+print('Part 5: Predict the quality of wine')
 new_data = [[7.5, 0.27, 0.36, 20.7, 0.045, 45, 1.001, 3, 0.45, 8.8]]
-print("Predicted wine quality:", loaded_model.predict(new_data))
+prediction_result = [
+        ['Decision Tree', dt.predict(new_data)[0]],
+        ['Random Forest', rf.predict(new_data)[0]],
+        ['AdaBoost', AdaBoost.predict(new_data)[0]],
+        ['Gradient Boosting', GradientBoosting.predict(new_data)[0]],
+        ['CatBoost', CatBoostModel.predict(new_data)[0][0]]
+    ]
+print("Predicted wine quality:", prediction_result)
 print("-" * 100)
 
 ########################################################################
-# Part 7: Build the web application using Streamlit
+# Part 6: Build the web application using Streamlit
 ########################################################################
-print('Part 7: Build the web application using Streamlit')
-# 7.1. Build the web application using Streamlit
-print('7.1. Build the web application using Streamlit')
+print('Part 6: Build the web application using Streamlit')
+
 st.title('Wine Quality Prediction')
 st.write('This is a web application for predicting the quality of white wine.')
 st.sidebar.write('Please enter the following data and click the "Predict" button to predict the quality of the white wine.')
@@ -224,8 +164,15 @@ alcohol = st.sidebar.text_input("alcohol", "8.8")
 new_data = [[fixed_acidity, volatile_acidity, citric_acid, residual_sugar, chlorides, free_sulfur_dioxide, density, pH, sulphates, alcohol]]
 if st.button('Predict'):
     st.write('The data you entered:')
-    st.write(pd.DataFrame(new_data, columns=['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']))
-    st.write("Predicted wine quality:", loaded_model.predict(new_data))
+    st.write(pd.DataFrame(new_data, columns=['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol'], index=["Value"]))
+    prediction_result = {
+        "Decision Tree" : dt.predict(new_data)[0],
+        "Random Forest" : rf.predict(new_data)[0],
+        "AdaBoost" : AdaBoost.predict(new_data)[0],
+        "Gradient Boosting" : GradientBoosting.predict(new_data)[0],
+        "CatBoost" : CatBoostModel.predict(new_data)[0][0]
+    }
+    st.write("Predicted wine quality:", pandas.DataFrame(data=prediction_result, index=["Quality"]))
     st.write('The quality of wine is between 0 and 10.')
     st.write('0: Very Bad')
     st.write('1: Very Bad')
@@ -238,10 +185,5 @@ if st.button('Predict'):
     st.write('8: Very Good')
     st.write('9: Excellent')
     st.write('10: Excellent')
-print("-" * 100)
-
-# 7.2. Run the web application
-print('7.2. Run the web application')
-# streamlit run Assignment2.py
 print("-" * 100)
 
