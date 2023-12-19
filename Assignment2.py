@@ -204,20 +204,19 @@ def main():
     if os.path.isfile('dt_model.pkl') and os.path.isfile('rf_model.pkl') and os.path.isfile('AdaBoost_model.pkl') and \
             os.path.isfile('GradientBoosting_model.pkl') and os.path.isfile('CatBoost_model.pkl'):
         trained = True
-    match trained:
-        case False:
-            df_cleaned = prepare()
-            X, y, X_train, X_test, y_train, y_test = split(df_cleaned)
-            dt, rf, AdaBoost, GradientBoosting, CatBoostModel, trained = train(X, y, X_train, X_test, y_train, y_test)
-            predict(dt, rf, AdaBoost, GradientBoosting, CatBoostModel)
-            app(dt, rf, AdaBoost, GradientBoosting, CatBoostModel)
-        case True:
-            dt = joblib.load('dt_model.pkl')
-            rf = joblib.load('rf_model.pkl')
-            AdaBoost = joblib.load('AdaBoost_model.pkl')
-            GradientBoosting = joblib.load('GradientBoosting_model.pkl')
-            CatBoostModel = joblib.load('CatBoost_model.pkl')
-            app(dt, rf, AdaBoost, GradientBoosting, CatBoostModel)
+    if not trained:
+        dt = joblib.load('dt_model.pkl')
+        rf = joblib.load('rf_model.pkl')
+        AdaBoost = joblib.load('AdaBoost_model.pkl')
+        GradientBoosting = joblib.load('GradientBoosting_model.pkl')
+        CatBoostModel = joblib.load('CatBoost_model.pkl')
+        app(dt, rf, AdaBoost, GradientBoosting, CatBoostModel)
+    elif trained:
+        df_cleaned = prepare()
+        X, y, X_train, X_test, y_train, y_test = split(df_cleaned)
+        dt, rf, AdaBoost, GradientBoosting, CatBoostModel, trained = train(X, y, X_train, X_test, y_train, y_test)
+        predict(dt, rf, AdaBoost, GradientBoosting, CatBoostModel)
+        app(dt, rf, AdaBoost, GradientBoosting, CatBoostModel)
 
 
 if __name__ == '__main__':
